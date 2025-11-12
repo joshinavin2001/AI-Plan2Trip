@@ -44,19 +44,7 @@ const Index = () => {
   const [aiResponse, setAiResponse] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
 
-  const handlePlaceSelect = (value: GeoapifyPlace | null) => {
-    if (value) setFormData((prev) => ({ ...prev, destination: value }));
-  };
-
-  const handleDaysChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setFormData((prev) => ({ ...prev, days: Number(e.target.value) }));
-
-  const handleBudgetSelect = (budget: string) =>
-    setFormData((prev) => ({ ...prev, budget }));
-
-  const handleTravelSelect = (travelWith: string) =>
-    setFormData((prev) => ({ ...prev, travelWith }));
-
+  // --- Google Login Setup ---
   const logIn = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       console.log("Google login success:", tokenResponse);
@@ -70,7 +58,7 @@ const Index = () => {
         console.error("Error fetching Google user profile:", err);
       }
 
-      setOpenDialog(false);
+      setOpenDialog(false); // Close login dialog after successful login
     },
     onError: (error) => {
       console.error("Google login failed:", error);
@@ -89,10 +77,25 @@ const Index = () => {
       .then((resp) => resp.data);
   };
 
+  // --- Form Handlers ---
+  const handlePlaceSelect = (value: GeoapifyPlace | null) => {
+    if (value) setFormData((prev) => ({ ...prev, destination: value }));
+  };
+
+  const handleDaysChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setFormData((prev) => ({ ...prev, days: Number(e.target.value) }));
+
+  const handleBudgetSelect = (budget: string) =>
+    setFormData((prev) => ({ ...prev, budget }));
+
+  const handleTravelSelect = (travelWith: string) =>
+    setFormData((prev) => ({ ...prev, travelWith }));
+
+  // --- Submit Trip ---
   const handleSubmit = async () => {
     const user = localStorage.getItem("user");
     if (!user) {
-      setOpenDialog(true);
+      setOpenDialog(true); // Open login dialog if user not logged in
       return;
     }
 
@@ -246,16 +249,17 @@ const Index = () => {
         </div>
       )}
 
+      {/* Google Login Dialog */}
       <Dialog open={openDialog}>
         <DialogContent>
           <DialogHeader>
             <DialogDescription>
-              <img className="w-25 h-12" src={logo} alt="" />
+              <img className="w-25 h-12" src={logo} alt="Plan2Trip Logo" />
               <h2 className="font-bold text-lg mt-7">Sign In With Google</h2>
               <p>Sign in to the App with Google authentication securely</p>
               <Button
                 onClick={() => logIn()}
-                className="w-full mt-5 bg-amber-800 hover:bg-amber-700"
+                className="w-full mt-5 bg-amber-800 hover:bg-amber-700 flex items-center justify-center gap-2"
               >
                 <FcGoogle /> Sign In With Google
               </Button>
