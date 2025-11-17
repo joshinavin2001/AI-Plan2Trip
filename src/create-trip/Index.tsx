@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "@/styles/geoapify-custom.css";
 import {
   GeoapifyContext,
   GeoapifyGeocoderAutocomplete,
@@ -136,96 +137,83 @@ const Index = () => {
   };
 
   return (
-    <div className="px-5 sm:px-10 md:px-32 lg:px-56 xl:px-72 overflow-x-hidden relative min-h-[90vh]">
-      {/* Background */}
-      <div className="px-5 sm:px-10 md:px-32 lg:px-56 xl:px-72 pt-5 absolute inset-0 bg-gradient-to-b from-amber-50 via-white to-transparent -z-10">
-        <h1 className="text-2xl text-amber-800 font-bold">
+    <div className=" px-7 sm:px-15 md:px-30 lg:px-60  pt-5 bg-gradient-to-t from-amber-50 via-amber-50 to-transparent">
+      <div>
+        <h1 className="lg:text-3xl text-2xl text-amber-800 font-bold">
           Build Your Dream Trip in Minutes
+          <span className="text-xl lg:text-2xl">🍂</span>
         </h1>
-        <p className="text-gray-500 mt-2">
+        <p className="text-gray-500">
           Answer a few simple questions — our AI trip planner will craft a
           personalized itinerary that fits your vibe, time, and budget.
         </p>
       </div>
-
-      {/* Destination */}
-      <div className="mt-45">
-        <h1 className="font-semibold text-amber-600 ">
-          Where do you want to go?
-        </h1>
-        <GeoapifyContext
-          apiKey={import.meta.env.VITE_GEOAPIFY_API_KEY as string}
-        >
-          <div className="w-full mt-3">
-            <GeoapifyGeocoderAutocomplete
-              placeholder="Enter a location..."
-              type="city"
-              placeSelect={handlePlaceSelect}
-            />
-          </div>
-        </GeoapifyContext>
-
-        {/* Days */}
-        <div className="mt-5 font-medium">
-          <h1 className="mb-2 font-semibold text-amber-600 ">
-            Enter the total number of travel days.
-          </h1>
-          <input
-            placeholder="Ex. 3"
-            type="number"
-            onChange={handleDaysChange}
-            className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+      <div className="my-custom-input mt-10">
+        <h1 className="font-semibold mb-1 ml-1">Where do you want to go?</h1>
+        <GeoapifyContext apiKey={import.meta.env.VITE_GEOAPIFY_API_KEY}>
+          <GeoapifyGeocoderAutocomplete
+            placeholder="Search destination…"
+            debounceDelay={300}
+            type="city"
+            value=""
+            placeSelect={handlePlaceSelect}
           />
-        </div>
-      </div>
-
-      {/* Budget Options */}
-      <div className="mt-10">
-        <h1 className="font-semibold text-amber-600 ">
-          What’s your travel budget?
+        </GeoapifyContext>
+        <h1 className="font-semibold ml-1 mb-1 mt-3">
+          Enter the total number of travel days?
         </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-5">
-          {selectBudgetOption.map((elem) => (
+        <input
+          onChange={handleDaysChange}
+          type="number"
+          placeholder="Enter days.."
+          className="py-1 px-2 w-full rounded-[15px] outline-none  border-[#ecd7b3] focus:border-[#f8b033] bg-white  border-2"
+        />
+      </div>
+      {/* budget select  */}
+      <h1 className="mt-4 font-semibold ml-1 mb-1">
+        What’s your travel budget?
+      </h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 ">
+        {selectBudgetOption.map((elem, i) => {
+          return (
             <div
-              key={elem.id}
               onClick={() => handleBudgetSelect(elem.title)}
-              className={`px-4 py-2 border rounded-lg hover:shadow-lg cursor-pointer transition ${
+              key={i}
+              className={`bg-white cursor-pointer  border-amber-200 border rounded-2xl p-5 shadow-sm hover:shadow-md transition ${
                 formData.budget === elem.title
-                  ? "border-blue-500 bg-blue-50"
-                  : ""
-              }`}
+                  ? "border-amber-700 border-2"
+                  : "border-amber-200"
+              } `}
             >
               <h1 className="text-3xl">{elem.icon}</h1>
               <h1 className="font-bold">{elem.title}</h1>
               <p className="text-gray-500">{elem.desc}</p>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
-
-      {/* Travel Partner */}
-      <div className="mt-10">
-        <h1 className="font-semibold text-amber-600 ">
-          Who will you be traveling with?
-        </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-5">
-          {selectTravelList.map((elem) => (
+      {/* select travel  */}
+      <h1 className="mt-4 font-semibold ml-1 mb-1">
+        Whats your travel budget..?
+      </h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {selectTravelList.map((elem, i) => {
+          return (
             <div
-              key={elem.id}
               onClick={() => handleTravelSelect(elem.title)}
-              className={`px-4 py-2 border rounded-lg hover:shadow-lg cursor-pointer transition ${
+              key={i}
+              className={`bg-white border ${
                 formData.travelWith === elem.title
-                  ? "border-blue-500 bg-blue-50"
-                  : ""
-              }`}
+                  ? "border-amber-700 border-2"
+                  : "border-amber-200"
+              } border-amber-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition`}
             >
               <h1 className="text-3xl">{elem.icon}</h1>
               <h1 className="font-bold">{elem.title}</h1>
               <p className="text-gray-500">{elem.desc}</p>
-              <p className="text-gray-500">{elem.people}</p>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
 
       {/* Submit Button */}

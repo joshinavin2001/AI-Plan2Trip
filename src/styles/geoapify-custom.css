@@ -1,0 +1,53 @@
+/* INPUT — full width, no change */
+.my-custom-input .geoapify-autocomplete-input {
+  background: #ffffff;
+  border: 2px solid #ecd7b3;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 16px;
+  color: #333;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.05);
+}
+
+/* INPUT FOCUS */
+.my-custom-input .geoapify-autocomplete-input:focus {
+  outline: none;
+  border-color: #f39932;
+  /* box-shadow: 0px 0px 0px 4px rgba(251, 191, 36, 0.35); */
+}
+
+/* ============ SUGGESTION BOX (only this is small) ============ */
+.my-custom-input .geoapify-autocomplete-items {
+  width: 280px !important;   /* 👈 Chota dropdown width */
+  position: absolute;
+  left: 0;
+  top: calc(100% + 6px);     /* input ke bilkul neeche */
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 6px;
+  box-shadow: 0px 8px 20px rgba(0,0,0,0.08);
+  z-index: 999;
+  
+}
+
+/* You can change 280px → 250 / 300 / 200 as you want */
+
+/* ============ SUGGESTION ITEM ============ */
+.my-custom-input .geoapify-autocomplete-item {
+  text-align: left !important;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* Hover */
+.my-custom-input .geoapify-autocomplete-item:hover {
+  background: #fef3c7;
+}
+
+/* Selected */
+.my-custom-input .geoapify-autocomplete-item.selected {
+  background: #fde68a;
+}
