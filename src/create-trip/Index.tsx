@@ -139,7 +139,7 @@ const Index = () => {
   return (
     <div className=" px-7 sm:px-15 md:px-30 lg:px-60  pt-5 bg-gradient-to-t from-amber-50 via-amber-50 to-transparent">
       <div>
-        <h1 className="lg:text-3xl text-2xl text-amber-800 font-bold">
+        <h1 className="text-3xl text-amber-800 font-bold">
           Build Your Dream Trip in Minutes
           <span className="text-xl lg:text-2xl">🍂</span>
         </h1>
@@ -219,7 +219,7 @@ const Index = () => {
       {/* Submit Button */}
       <div className="flex justify-end">
         <button
-          className="my-5 bg-amber-800 hover:bg-amber-600 text-white px-6 py-2 rounded-md transition"
+          className="mt-5 bg-amber-800 hover:bg-amber-600 text-white px-6 py-2 rounded-md transition"
           onClick={handleSubmit}
           disabled={loading}
         >
