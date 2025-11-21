@@ -40,17 +40,18 @@ interface FormData {
   budget?: string;
   travelWith?: string;
 }
+// ----- Helper to parse AI JSON -----
 const parseAiResponse = (aiResponse: string) => {
   const match = aiResponse.match(/```json([\s\S]*?)```/);
   if (match && match[1]) {
     try {
       return JSON.parse(match[1]);
     } catch (err) {
-      console.log("error", err);
-      return aiResponse;
+      console.error("Failed to parse AI JSON:", err);
+      return aiResponse; // fallback
     }
   }
-  return aiResponse;
+  return aiResponse; // fallback if no ```json``` block
 };
 
 const Index = () => {

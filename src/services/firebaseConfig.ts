@@ -2,13 +2,13 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 const firebaseConfig = {
-  apiKey: "AIzaSyAMrtdQQbtJ2ZlapjnYeGuAjFFrhvIrTM4",
-  authDomain: "aitripplanner-422f4.firebaseapp.com",
-  projectId: "aitripplanner-422f4",
-  storageBucket: "aitripplanner-422f4.firebasestorage.app",
-  messagingSenderId: "77858709910",
-  appId: "1:77858709910:web:d46a145483f64817743db7",
-  measurementId: "G-8LNLYVLH1C",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
