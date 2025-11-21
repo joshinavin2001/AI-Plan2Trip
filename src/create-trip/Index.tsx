@@ -9,7 +9,6 @@ import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import logo from "@/assets/IMG/plan2TripLogo.png";
 import { FcGoogle } from "react-icons/fc";
-
 import {
   selectBudgetOption,
   selectTravelList,
@@ -24,6 +23,9 @@ import {
 } from "@/components/ui/dialog";
 
 import { generateTripPlan } from "@/services/AImodel";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "@/services/firebaseConfig";
 
 interface GeoapifyPlace {
   properties: {
@@ -38,6 +40,18 @@ interface FormData {
   budget?: string;
   travelWith?: string;
 }
+const parseAiResponse = (aiResponse: string) => {
+  const match = aiResponse.match(/```json([\s\S]*?)```/);
+  if (match && match[1]) {
+    try {
+      return JSON.parse(match[1]);
+    } catch (err) {
+      console.log("error", err);
+      return aiResponse;
+    }
+  }
+  return aiResponse;
+};
 
 const Index = () => {
   const [formData, setFormData] = useState<FormData>({});
@@ -47,35 +61,30 @@ const Index = () => {
 
   // --- Google Login Setup ---
   const logIn = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      console.log("Google login success:", tokenResponse);
-      localStorage.setItem("user", JSON.stringify(tokenResponse));
-
-      try {
-        const profile = await getUserProfile(tokenResponse.access_token);
-        console.log("User Profile:", profile);
-        localStorage.setItem("userProfile", JSON.stringify(profile));
-      } catch (err) {
-        console.error("Error fetching Google user profile:", err);
-      }
-
-      setOpenDialog(false); // Close login dialog after successful login
+    onSuccess: (tokenInfo) => {
+      console.log("Google Token:", tokenInfo);
+      getUserProfile(tokenInfo); // <-- YEH CALL MISSING THA
     },
-    onError: (error) => {
-      console.error("Google login failed:", error);
-      alert("Google login failed, please try again.");
-    },
+    onError: (error) => console.log(error),
   });
 
-  const getUserProfile = (accessToken: string) => {
-    return axios
+  const getUserProfile = (tokenInfo: { access_token: string }) => {
+    axios
       .get("https://www.googleapis.com/oauth2/v1/userinfo", {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
-          Accept: "application/json",
+          Authorization: `Bearer ${tokenInfo.access_token}`,
+          Accept: "Application/json",
         },
       })
-      .then((resp) => resp.data);
+      .then((res) => {
+        console.log("User Profile:", res.data);
+        localStorage.setItem("user", JSON.stringify(res.data));
+        handleSubmit();
+        setOpenDialog(false);
+      })
+      .catch((err) => {
+        console.error("Error:", err);
+      });
   };
 
   // --- Form Handlers ---
@@ -91,6 +100,20 @@ const Index = () => {
 
   const handleTravelSelect = (travelWith: string) =>
     setFormData((prev) => ({ ...prev, travelWith }));
+
+  const saveAiTrips = async (tripData: string) => {
+    setLoading(true);
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const docID = Date.now().toString();
+    const parseResult = parseAiResponse(tripData);
+    await setDoc(doc(db, "AiTrips", docID), {
+      userSelection: formData,
+      tripdata: parseResult,
+      user: user?.email,
+      id: docID,
+    });
+    setLoading(false);
+  };
 
   // --- Submit Trip ---
   const handleSubmit = async () => {
@@ -126,6 +149,7 @@ const Index = () => {
       });
 
       setAiResponse(tripPlan);
+      await saveAiTrips(tripPlan);
     } catch (error) {
       console.error("Error generating trip:", error);
       alert(
@@ -223,7 +247,11 @@ const Index = () => {
           onClick={handleSubmit}
           disabled={loading}
         >
-          {loading ? "Generating..." : "Generate My Trip ✨"}
+          {loading ? (
+            <AiOutlineLoading3Quarters className="h-7 w-7 animate-spin" />
+          ) : (
+            "Generate My Trip ✨"
+          )}
         </button>
       </div>
 
