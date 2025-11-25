@@ -6,6 +6,7 @@ import Index from "./create-trip/Index.tsx";
 import Header from "./pages/homepage/Header.tsx";
 import { Toaster } from "react-hot-toast";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import ViewTrip from "./View-Trip/[tripId]/ViewTrip.tsx";
 
 const clientId = import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID;
 
@@ -19,6 +20,7 @@ if (!clientId) {
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
   { path: "/create-trip", element: <Index /> },
+  { path: "/view-trip/:tripId", element: <ViewTrip /> },
 ]);
 
 // Root render

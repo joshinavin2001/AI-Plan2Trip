@@ -26,6 +26,7 @@ import { generateTripPlan } from "@/services/AImodel";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "@/services/firebaseConfig";
+import { useNavigate } from "react-router-dom";
 
 interface GeoapifyPlace {
   properties: {
@@ -57,9 +58,8 @@ const parseAiResponse = (aiResponse: string) => {
 const Index = () => {
   const [formData, setFormData] = useState<FormData>({});
   const [loading, setLoading] = useState(false);
-  const [aiResponse, setAiResponse] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
-
+  const nevigate = useNavigate();
   // --- Google Login Setup ---
   const logIn = useGoogleLogin({
     onSuccess: (tokenInfo) => {
@@ -104,16 +104,29 @@ const Index = () => {
 
   const saveAiTrips = async (tripData: string) => {
     setLoading(true);
+
     const user = JSON.parse(localStorage.getItem("user") || "{}");
     const docID = Date.now().toString();
-    const parseResult = parseAiResponse(tripData);
+
+    // Parse the AI response to object
+    const parsedTrip = parseAiResponse(tripData);
+
+    // Ensure parsedTrip is an object, not string
+    const tripObject =
+      typeof parsedTrip === "string"
+        ? JSON.parse(parsedTrip) // fallback if parseAiResponse returned string
+        : parsedTrip;
+
+    // Save directly as object
     await setDoc(doc(db, "AiTrips", docID), {
       userSelection: formData,
-      tripdata: parseResult,
+      tripdata: tripObject, // ✅ Object stored, not string
       user: user?.email,
       id: docID,
     });
+
     setLoading(false);
+    nevigate("/view-trip/" + docID);
   };
 
   // --- Submit Trip ---
@@ -149,7 +162,6 @@ const Index = () => {
         budget: formData.budget,
       });
 
-      setAiResponse(tripPlan);
       await saveAiTrips(tripPlan);
     } catch (error) {
       console.error("Error generating trip:", error);
@@ -255,16 +267,6 @@ const Index = () => {
           )}
         </button>
       </div>
-
-      {/* AI Response */}
-      {aiResponse && (
-        <div className="mt-10 bg-white p-5 rounded-lg shadow-md border">
-          <h2 className="text-xl font-bold text-amber-800 mb-2">
-            Your AI Trip Plan
-          </h2>
-          <pre className="whitespace-pre-wrap text-gray-700">{aiResponse}</pre>
-        </div>
-      )}
 
       {/* Google Login Dialog */}
       <Dialog open={openDialog}>
