@@ -10,20 +10,22 @@ lerna-debug.log*
 # Environment variables
 .env
 .env.local
-node_modules
-dist
-dist-ssr
+.env.*.local
+
+# Production build
+dist/
+dist-ssr/
+
+# Node
+node_modules/
+
+# Local config
 *.local
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
+# Editor settings
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
