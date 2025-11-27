@@ -12,26 +12,51 @@ import MyTrips from "./my-trips/MyTrips.tsx";
 const clientId = import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID;
 
 if (!clientId) {
-  throw new Error(
-    "Missing VITE_GOOGLE_AUTH_CLIENT_ID in .env! Add your Google OAuth client ID."
-  );
+  throw new Error("Missing VITE_GOOGLE_AUTH_CLIENT_ID in .env!");
 }
 
-// Router setup
 const router = createBrowserRouter([
-  { path: "/", element: <App /> },
-  { path: "/create-trip", element: <Index /> },
-  { path: "/view-trip/:tripId", element: <ViewTrip /> },
-  { path: "/my-trips", element: <MyTrips /> },
+  {
+    path: "/",
+    element: (
+      <>
+        <Header /> {/* ✔️ NOW INSIDE ROUTER */}
+        <App />
+      </>
+    ),
+  },
+  {
+    path: "/create-trip",
+    element: (
+      <>
+        <Header />
+        <Index />
+      </>
+    ),
+  },
+  {
+    path: "/view-trip/:tripId",
+    element: (
+      <>
+        <Header />
+        <ViewTrip />
+      </>
+    ),
+  },
+  {
+    path: "/my-trips",
+    element: (
+      <>
+        <Header />
+        <MyTrips />
+      </>
+    ),
+  },
 ]);
 
-// Root render
 createRoot(document.getElementById("root")!).render(
   <GoogleOAuthProvider clientId={clientId}>
-    <>
-      <Header />
-      <Toaster />
-      <RouterProvider router={router} />
-    </>
+    <Toaster />
+    <RouterProvider router={router} />
   </GoogleOAuthProvider>
 );

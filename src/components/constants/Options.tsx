@@ -23,7 +23,7 @@ export const selectTravelList = [
     id: 1,
     title: "Just Me",
     desc: "A solo traveles in exploration",
-    icon: "🛧",
+    icon: "🙋‍♂️",
     people: "1",
   },
   {
