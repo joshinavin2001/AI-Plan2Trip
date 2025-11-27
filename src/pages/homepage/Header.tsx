@@ -142,7 +142,7 @@ const Header = () => {
                     localStorage.clear();
                     window.location.reload();
                   }}
-                  className="rounded-full cursor-pointer bg-amber-700 hover:bg-amber-600 text-white hover:text-white"
+                  className="rounded-full outline-none cursor-pointer bg-amber-700 hover:bg-amber-600 text-white hover:text-white"
                   variant="outline"
                 >
                   LogOut <CiLogout />
