@@ -78,7 +78,9 @@ const Header = () => {
             <a href="/my-trips">
               <Button
                 variant="outline"
-                className="rounded-full cursor-pointer bg-amber-700 hover:bg-amber-600 text-white hover:text-white"
+                className={`rounded-full cursor-pointer bg-amber-700 hover:bg-amber-600 text-white hover:text-white ${
+                  currentPath === "/my-trips" ? "hidden" : "block"
+                }`}
               >
                 My Trips
               </Button>
@@ -124,7 +126,9 @@ const Header = () => {
                   <a href="/my-trips">
                     <Button
                       variant="outline"
-                      className="w-full cursor-pointer bg-amber-700 hover:bg-amber-600 text-white hover:text-white rounded-full"
+                      className={`w-full cursor-pointer bg-amber-700 hover:bg-amber-600 text-white hover:text-white rounded-full ${
+                        currentPath === "/my-trips" ? "hidden" : "block"
+                      } `}
                     >
                       My Trips
                     </Button>
