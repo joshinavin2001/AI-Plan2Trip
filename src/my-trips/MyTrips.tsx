@@ -125,7 +125,7 @@ const MyTrips = () => {
   };
 
   return (
-    <div className="py-2 pt-6 px-10 md:px-20 bg-gradient-to-t min-h-screen from-amber-50 via-amber-50 to-transparent lg:px-44 xl:px-56">
+    <div className="pt-6  px-4 md:px-20 bg-gradient-to-t  from-amber-50 via-amber-50 to-transparent lg:px-44 xl:px-56">
       <h2 className="font-bold text-3xl">My Trips</h2>
       <h2
         className={`${
