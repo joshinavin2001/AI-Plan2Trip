@@ -124,8 +124,15 @@ const MyTrips = () => {
   };
 
   return (
-    <div className="p-10 md:px-20 lg:px-44 xl:px-56">
+    <div className="p-10 md:px-20 bg-gradient-to-t h-[90vh] from-amber-50 via-amber-50 to-transparent lg:px-44 xl:px-56">
       <h2 className="font-bold text-3xl">My Trips</h2>
+      <h2
+        className={`${
+          userTrips.length === 0 ? "block" : "hidden"
+        } font-medium text-gray-400 mt-2`}
+      >
+        Sorry No Trips Found. Please create a trip first!
+      </h2>
 
       <div>
         {userTrips.map((trip) => (
