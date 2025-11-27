@@ -21,7 +21,7 @@ import axios from "axios";
 
 const Header = () => {
   const user = JSON.parse(localStorage.getItem("user") || "null");
-  const currentPath = window.location.pathname;
+  const currentPath = window.location.pathname.trim();
 
   console.log(user);
   const [openDialog, setOpenDialog] = useState(false);
@@ -66,7 +66,9 @@ const Header = () => {
               <Button
                 variant="outline"
                 className={`rounded-full cursor-pointer bg-amber-700 hover:bg-amber-600 text-white hover:text-white ${
-                  currentPath === "/create-trip" ? "hidden" : "block"
+                  currentPath === "/" || currentPath === "/create-trip"
+                    ? "hidden"
+                    : "block"
                 }`}
               >
                 +Create Trip
@@ -86,7 +88,7 @@ const Header = () => {
           {/* PROFILE + MOBILE MENU */}
           <Popover>
             <PopoverTrigger>
-              <MdMenuOpen className="h-8 cursor-pointer text-amber-700 active:scale-95 w-8" />
+              <MdMenuOpen className="h-9 cursor-pointer text-amber-700 active:scale-95 w-9" />
             </PopoverTrigger>
 
             <PopoverContent className="w-65 mt-4 bg-gradient-to-b from-amber-50 via-amber-50 to-transparent shadow-amber-200">
@@ -110,12 +112,15 @@ const Header = () => {
                     <Button
                       variant="outline"
                       className={`rounded-full cursor-pointer w-full bg-amber-700 hover:bg-amber-600 text-white hover:text-white ${
-                        currentPath === "/create-trip" ? "hidden" : "block"
+                        currentPath === "/" || currentPath === "/create-trip"
+                          ? "hidden"
+                          : "block"
                       }`}
                     >
                       +Create Trip
                     </Button>
                   </a>
+
                   <a href="/my-trips">
                     <Button
                       variant="outline"
