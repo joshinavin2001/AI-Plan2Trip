@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/IMG/plan2TripLogo.png";
 import { FcGoogle } from "react-icons/fc";
+import { MdMenuOpen } from "react-icons/md";
 import {
   Popover,
   PopoverContent,
@@ -20,6 +21,9 @@ import axios from "axios";
 
 const Header = () => {
   const user = JSON.parse(localStorage.getItem("user") || "null");
+  const currentPath = window.location.pathname;
+
+  console.log(user);
   const [openDialog, setOpenDialog] = useState(false);
   // --- Google Login Setup ---
   const logIn = useGoogleLogin({
@@ -56,50 +60,98 @@ const Header = () => {
 
       {user && user.picture ? (
         <div className="flex items-center gap-3">
-          <a href="/create-trip">
-            <Button variant="outline" className="rounded-full">
-              Create Trip
-            </Button>
-          </a>
-          <a href="/my-trips">
-            <Button variant="outline" className="rounded-full">
-              My Trips
-            </Button>
-          </a>
+          {/* DESKTOP BUTTONS */}
+          <div className="hidden md:flex items-center gap-3">
+            <a href="/create-trip">
+              <Button
+                variant="outline"
+                className={`rounded-full cursor-pointer bg-amber-700 hover:bg-amber-600 text-white hover:text-white ${
+                  currentPath === "/create-trip" ? "hidden" : "block"
+                }`}
+              >
+                +Create Trip
+              </Button>
+            </a>
+
+            <a href="/my-trips">
+              <Button
+                variant="outline"
+                className="rounded-full cursor-pointer bg-amber-700 hover:bg-amber-600 text-white hover:text-white"
+              >
+                My Trips
+              </Button>
+            </a>
+          </div>
+
+          {/* PROFILE + MOBILE MENU */}
           <Popover>
             <PopoverTrigger>
-              {" "}
-              <img
-                src={user.picture}
-                className="h-8 w-8 rounded-full cursor-pointer"
-                alt="User"
-              />
+              <MdMenuOpen className="h-8 cursor-pointer text-amber-700 active:scale-95 w-8" />
             </PopoverTrigger>
-            <PopoverContent className="text-end">
-              {" "}
-              <Button
-                onClick={() => {
-                  googleLogout();
-                  localStorage.clear();
-                  window.location.reload();
-                }}
-                className="rounded-ful cursor-pointerl"
-                variant={"outline"}
-              >
-                LogOut <CiLogout />
-              </Button>{" "}
+
+            <PopoverContent className="w-65 mt-4 bg-gradient-to-b from-amber-50 via-amber-50 to-transparent shadow-amber-200">
+              <div className="flex justify-end mb-4 gap-2  ">
+                <div>
+                  <h2 className="text-xl font-semibold">{user.name}</h2>
+                  <h2 className="text-sm"> {user.email} </h2>
+                </div>
+
+                <img
+                  src={user.picture}
+                  className="h-10 w-10 rounded-full cursor-pointer"
+                  alt="User"
+                />
+              </div>
+
+              <div className="flex flex-col gap-3">
+                {/* MOBILE MENU */}
+                <div className="md:hidden flex flex-col gap-2">
+                  <a href="/create-trip">
+                    <Button
+                      variant="outline"
+                      className={`rounded-full cursor-pointer w-full bg-amber-700 hover:bg-amber-600 text-white hover:text-white ${
+                        currentPath === "/create-trip" ? "hidden" : "block"
+                      }`}
+                    >
+                      +Create Trip
+                    </Button>
+                  </a>
+                  <a href="/my-trips">
+                    <Button
+                      variant="outline"
+                      className="w-full cursor-pointer bg-amber-700 hover:bg-amber-600 text-white hover:text-white rounded-full"
+                    >
+                      My Trips
+                    </Button>
+                  </a>
+                </div>
+
+                {/* LOGOUT */}
+                <Button
+                  onClick={() => {
+                    googleLogout();
+                    localStorage.clear();
+                    window.location.reload();
+                  }}
+                  className="rounded-full cursor-pointer bg-amber-700 hover:bg-amber-600 text-white hover:text-white"
+                  variant="outline"
+                >
+                  LogOut <CiLogout />
+                </Button>
+              </div>
             </PopoverContent>
           </Popover>
         </div>
       ) : (
         <Button
           onClick={() => setOpenDialog(true)}
-          className="bg-amber-800 mt-1 hover:bg-amber-700"
+          className="bg-amber-800 cursor-pointer mt-1 hover:bg-amber-700"
         >
           Sign In
         </Button>
       )}
-      {/* Google Login Dialog */}
+
+      {/* Dialog */}
       <Dialog open={openDialog}>
         <DialogContent>
           <DialogHeader>
@@ -109,7 +161,7 @@ const Header = () => {
               <p>Sign in to the App with Google authentication securely</p>
               <Button
                 onClick={() => logIn()}
-                className="w-full mt-5 bg-amber-800 hover:bg-amber-700 flex items-center justify-center gap-2"
+                className="w-full cursor-pointer mt-5 bg-amber-800 hover:bg-amber-700 flex items-center justify-center gap-2"
               >
                 <FcGoogle /> Sign In With Google
               </Button>

@@ -5,6 +5,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserTripCardItem from "./UserTripCardItem";
+import FooterPage from "@/pages/homepage/FooterPage";
 
 /* ------------------ INTERFACES ------------------ */
 
@@ -124,7 +125,7 @@ const MyTrips = () => {
   };
 
   return (
-    <div className="p-10 md:px-20 bg-gradient-to-t h-[90vh] from-amber-50 via-amber-50 to-transparent lg:px-44 xl:px-56">
+    <div className="p-10 md:px-20 bg-gradient-to-t h-full from-amber-50 via-amber-50 to-transparent lg:px-44 xl:px-56">
       <h2 className="font-bold text-3xl">My Trips</h2>
       <h2
         className={`${
@@ -139,6 +140,7 @@ const MyTrips = () => {
           <UserTripCardItem key={trip.id} trip={trip} />
         ))}
       </div>
+      <FooterPage />
     </div>
   );
 };

@@ -255,8 +255,8 @@ const Index = () => {
 
       {/* Submit Button */}
       <div className="flex justify-end">
-        <button
-          className="mt-5 bg-amber-800 hover:bg-amber-600 text-white px-6 py-2 rounded-md transition"
+        <Button
+          className="mt-5 cursor-pointer bg-amber-700 hover:bg-amber-600 text-white px-6 py-2 rounded-md transition"
           onClick={handleSubmit}
           disabled={loading}
         >
@@ -265,7 +265,7 @@ const Index = () => {
           ) : (
             "Generate My Trip ✨"
           )}
-        </button>
+        </Button>
       </div>
 
       {/* Google Login Dialog */}

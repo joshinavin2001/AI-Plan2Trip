@@ -28,7 +28,7 @@ const Hero = () => {
       </p>
 
       <Link to={"/create-trip"}>
-        <Button className="mt-5 bg-amber-800 hover:bg-amber-700">
+        <Button className="mt-5 cursor-pointer bg-amber-700 hover:bg-amber-600">
           <TextType
             text={["✨ Get Started — It’s Free!"]}
             typingSpeed={75}
