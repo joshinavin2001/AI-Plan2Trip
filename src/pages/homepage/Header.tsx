@@ -103,7 +103,7 @@ const Header = () => {
             </PopoverTrigger>
 
             <PopoverContent className="w-65 mt-4 bg-gradient-to-b from-amber-50 via-amber-50 to-transparent shadow-amber-200">
-              <div className="flex justify-end mb-4 gap-2">
+              <div className="flex justify-between mb-4 gap-2">
                 <div>
                   <h2 className="text-xl font-semibold">{user.name}</h2>
                   <h2 className="text-sm">{user.email}</h2>
